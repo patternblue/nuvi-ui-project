@@ -53,7 +53,6 @@ img.icon {
 	display: inline-block;
 	width: 32px;
 	height: 32px;
-	/*background: $light-gray;*/
 	text-align: center;
 	position: absolute;
 	top: 50%;
@@ -64,7 +63,6 @@ img.icon {
 	&::before {
 		content: "";
 		display: block;
-		/*background: $mid-gray;*/
 		width: 10px;
 		height: 10px;
 		border-radius: $rounded;
@@ -78,7 +76,6 @@ img.icon {
 	&::after {
 		content: "";
 		display: block;
-		/*background: $mid-gray;*/
 		width: 20px;
 		height: 10px;
 		border-radius: $rounded $rounded 0 0;

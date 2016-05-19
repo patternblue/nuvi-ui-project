@@ -1,7 +1,7 @@
 $(document).ready(main);
 
 function getJSON(event){
-	var url = 'https://nuvi-challenge.herokuapp.com/activities'
+	var url = 'https://nuvi-challenge.herokuapp.com/activities';
 	$.ajax({
 		url: url,
 		type: 'GET',
@@ -48,7 +48,6 @@ function displayActivities(activities){
 			// check if the comment is the last one in the list
 			if(i >= allActivities.length - 1) waitForAnotherRequest();
 		}, i*300);
-
 	});
 }
 
@@ -68,7 +67,7 @@ function getElementList(activity){
 }
 
 function getReplyUrl(activity){
-	// set reply URL (need authorizations!)
+	// set reply URL (need keys/authorizations!)
 	var replyUrl = '#';
 	switch(activity.provider){
 		case 'twitter':
