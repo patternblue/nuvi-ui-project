@@ -31,13 +31,13 @@ function displayActivities(activities){
 		console.log('\n');
 
 		// var entry = '<div class="comment"><section class="top"><h6 class="byline"><a href="#"><span class="actor_avator"></span><span class="actor_username"></span></a><small> said <span class="data activity_date"></span></small></h6></section><section class="content activity_message"></section><section class="actions"><ul class="menu inline-list"><li class="like activity_likes"></li><li class="reply"></li><li class="source activity_url"></li></ul></section></div>';
-		var entry = '<div class="comment"><section class="top"><h6 class="byline"><a href="#"><span class="actor_avator"></span><span class="actor_username"></span></a><small> said <span class="data activity_date"></span></small></h6></section><section class="content activity_message"></section><section class="actions"><ul class="menu inline-list"><li class="like activity_likes"></li><li class="reply"></li><li class="source activity_url"></li></ul></section></div>';
+		var entry = '<div class="comment"><section class="top"><h6 class="byline"><span class="actor_avator"></span><span class="actor_username"></span><small> said <span class="data activity_date"></span></small></h6></section><section class="content activity_message"></section><section class="actions"><ul class="menu inline-list"><li class="like activity_likes"></li><li class="reply"></li><li class="source activity_url"></li></ul></section></div>';
 		var $entry = $(entry);
 
 		// a list of what values to append to the comment based on property name
 		var values = {
 			actor_name: activity.actor_name,
-			actor_username: activity.actor_username,
+			actor_username: '<a href="' + activity.actor_url + '" target="_blank">' + activity.actor_username + '</a>',
 			activity_message: '<p>' + activity.activity_message + '</p>',
 			activity_date: activity.activity_date,
 
@@ -46,7 +46,7 @@ function displayActivities(activities){
 			// activity_likes: '<a href="#">Likes (' + activity.activity_likes + ')</a>',
 			activity_url: '<a href="' + activity.activity_url + '" target="_blank">View on ' + capitalize(activity.provider) + '</a>',
 			// actor_avator property should be spelled as 'avatar' 
-			actor_avator: '<img class="icon" src="' + activity.actor_avator + '" alt="avator"></img>'
+			actor_avator: '<a href="' + activity.actor_url + '" target="_blank"><img class="icon" src="' + activity.actor_avator + '" alt="avator"></img></a>'
 		}
 		for (var propName in activity){
 			$entry.find('.' + propName).append(values[propName]);
