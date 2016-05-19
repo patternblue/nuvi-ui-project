@@ -23,15 +23,19 @@ function getJSON(event){
 }
 
 function displayActivities(activities){
+
+	// for each activity, construct a comment entry
 	activities.forEach(function(activity, i, allActivities){
 		var entry = '<div class="comment"><section class="top"><h6 class="byline"><span class="actor_avator"></span><span class="actor_username"></span><small> said <span class="data activity_date"></span></small></h6></section><section class="content activity_message"></section><section class="actions"><ul class="menu inline-list"><li class="like activity_likes"></li><li class="reply"></li><li class="source activity_url"></li></ul></section></div>',
 			$entry = $(entry),
 			elements = getElementList(activity),
 			replyUrl = getReplyUrl(activity);
 
+		// use elements list to determine what to append to the entry
 		for (var propName in activity){
 			$entry.find('.' + propName).append(elements[propName]);
 		}
+		// append the reply URL to the entry
 		$entry.find('.reply').append('<a href="' + replyUrl + '" target="_blank">Reply</a>');
 		entry = $entry[0].outerHTML;
 
@@ -62,6 +66,7 @@ function getElementList(activity){
 		actor_avator: '<a href="' + activity.actor_url + '" target="_blank"><img class="icon" src="' + activity.actor_avator + '" alt="avator"></img></a>'
 	}
 }
+
 function getReplyUrl(activity){
 	// set reply URL (need authorizations!)
 	var replyUrl = '#';
@@ -75,6 +80,7 @@ function getReplyUrl(activity){
 	}
 	return replyUrl;
 }
+
 function capitalize(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
@@ -84,7 +90,6 @@ function render(entry){
 	$('.comment:last').effect("highlight",{color: '#0c0'},1000);
 }
 
-
 // attach scroll event listener, and check if scrolled to bottom
 function waitForAnotherRequest(){
     $('#ajax-notification').hide("fade", "swing", 500, function(){
@@ -92,7 +97,7 @@ function waitForAnotherRequest(){
     });
 }
 
-// check if scrolled to bottom. If so, then render more activities
+// check if scrolled to bottom. If so, then get more activities
 function checkScrollBottom(){
 	if($(window).scrollTop() + $(window).height() > $(document).height() - $('.comment').height()) {
 		$(window).off('scroll');
@@ -101,11 +106,12 @@ function checkScrollBottom(){
 }
 
 function main(){
+	// listen for first click to get the data
 	$(document).on('click', function(){
 		$(document).off('click');		
 		getJSON();
 	});
-
+	// display loading bar while rendering the comments
 	$(document).ajaxStart(function() {
 		$('#ajax-notification').show();
 	});
