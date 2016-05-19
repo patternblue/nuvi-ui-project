@@ -76,6 +76,10 @@ h6.byline {
   h6.byline small {
     margin-left: 10px; }
 
+ul.inline-list li {
+  display: inline-block;
+  margin-right: 14px; }
+
 .indented.comment {
   padding-left: 15px;
   border-left: 1px solid #ebebeb; }

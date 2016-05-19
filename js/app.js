@@ -101,7 +101,10 @@ function checkScrollBottom(){
 }
 
 function main(){
-	$(window).on('scroll', checkScrollBottom);
+	$(document).on('click', function(){
+		$(document).off('click');		
+		getJSON();
+	});
 
 	$(document).ajaxStart(function() {
 		$('#ajax-notification').show();

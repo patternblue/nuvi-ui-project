@@ -108,6 +108,13 @@ h6.byline {
 
 }
 
+ul.inline-list {
+	li{
+		display: inline-block;
+		margin-right: 14px; 
+	}
+}
+
 .indented.comment {
 	padding-left: 15px;
 	border-left: 1px solid $light-gray;
