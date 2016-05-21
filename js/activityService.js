@@ -9,8 +9,7 @@ var activityService = (function($){
 			timeout: 2000,
 			success:function(results){
 				cb(results);
-				// storeActivities(results);
-				displayActivities(results);
+				displayActivities(results, cb);
 			},
 			error:function(xhr, status, errorThrown){
 				console.log('there was an error!');
@@ -24,7 +23,7 @@ var activityService = (function($){
 		});
 	}
 
-	function displayActivities(activities){
+	function displayActivities(activities, cb){
 
 		// for each activity, construct a comment entry
 		activities.forEach(function(activity, i, allActivities){
@@ -41,14 +40,11 @@ var activityService = (function($){
 			$entry.find('.reply').append('<a href="' + replyUrl + '" target="_blank">Reply</a>');
 			entry = $entry[0].outerHTML;
 
-			// console.log(activity);
-			// console.log('\n');
-
 			// render an activity after each interval
 			setTimeout(function(){
 				render(entry);
 				// check if the comment is the last one in the list
-				if(i >= allActivities.length - 1) waitForAnotherRequest();
+				if(i >= allActivities.length - 1) waitForAnotherRequest(cb);
 			}, i*300);
 		});
 	}
@@ -92,17 +88,19 @@ var activityService = (function($){
 	}
 
 	// attach scroll event listener, and check if scrolled to bottom
-	function waitForAnotherRequest(){
+	function waitForAnotherRequest(cb){
 	    $('#ajax-notification').hide("fade", "swing", 500, function(){
-			$(window).on('scroll', checkScrollBottom);
+			$(window).on('scroll', function(){
+				checkScrollBottom(cb);
+			});
 	    });
 	}
 
 	// check if scrolled to bottom. If so, then get more activities
-	function checkScrollBottom(){
+	function checkScrollBottom(cb){
 		if($(window).scrollTop() + $(window).height() > $(document).height() - $('.comment').height()) {
 			$(window).off('scroll');
-			getJSON();
+			getJSON(cb);
 		}
 	}
 
