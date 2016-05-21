@@ -12,12 +12,7 @@ function main(){
 
 		var mentions = mentionedActivities.length;
 		var totalLikes = visualizerService.getLikes(mentionedActivities);
-
-		// mentionedActivities.forEach();
-
-		// var twitterActivities = visualizerService.filterProvider(mentionedActivities, 'twitter');
-		// var twitterLikes = visualizerService.getLikes(twitterActivities);		
-
+	
 		visualizerService.init(mentionedActivities);
 
 		console.log(mentions + ' mentions');

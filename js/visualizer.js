@@ -10,16 +10,6 @@ var visualizerService = (function($, d3){
 		}
 		return list.filter(matchesFound);
 	}
-	
-	// function filterProvider(list, provider){
-	// 	// check list for regex pattern
-	// 	// var regex = new RegExp(word.toLowerCase(), 'g');
-
-	// 	function matchFound(activity){
-	// 		return activity.provider.toLowerCase() === provider;
-	// 	}
-	// 	return list.filter(matchFound);
-	// }
 
 	function getLikes(list){
 		function totalLikes(preVal, activity){
@@ -45,14 +35,12 @@ var visualizerService = (function($, d3){
 
 		//  size of svg element
 		var svgHeight = 400,
-			svgWidth = 420,
+			svgWidth = 480,
 			//  width of each bar and offset between each bar
 			barWidth = 40,
 			barOffset = 40,
 			// colors
 			colorBackground = '#8a9078',
-			// colorBackground = '#dff0d8',
-			// colorFill = '#3c763d',
 			colorStroke = '#364996';
 
 		// sort/nest chart data by provider name, then sum the likes for each provider
@@ -72,12 +60,12 @@ var visualizerService = (function($, d3){
 		// scale height
 		var maxLikes = d3.max(sumOfLikesData, function(d){ return d.values; });
 		var yScale = d3.scale.linear()
-			.domain([0, maxLikes])
+			.domain([0, maxLikes*1.2])
 			.range([0, svgHeight]);
 		// scale colors
 		var colorScale = d3.scale.linear()
 			.domain([0, sumOfLikesData.length*.33, sumOfLikesData.length*.66, sumOfLikesData.length])
-			.range(['#d6e9c6', '#bce8f1', '#faebcc', '#ebccd1']);
+			.range(['#c6d9a6', '#a4b8e2', '#ead8bc', '#d5b3c9']);
 
 		var svg = d3.select('#bar-chart').append('svg')
 			.attr('width', svgWidth)
@@ -95,19 +83,38 @@ var visualizerService = (function($, d3){
 				return yScale(data.values);
 			})
 			.attr('x', function(data, i){
-				// if data.provider()
-				// return i*(barWidth + barOffset);
 				return xScale(i);
 			})
 			.attr('y', function(data){
 				return svgHeight - yScale(data.values);
 			});
 
+		var texts = svg.selectAll('text').data(sumOfLikesData).enter();
+		texts.append('text')
+			.text(function(data){
+    		    return data.values + ' likes';
+	   		})
+			.attr('x', function(data, i) {
+				return xScale(i) + 5;
+			})
+			.attr('y', function(data){
+				return svgHeight - yScale(data.values) + 20;
+			});
+
+		texts.append('text')
+			.text(function(data){
+    		    return activityService.capitalize(data.key);
+	   		})
+			.attr('x', function(data, i) {
+				return xScale(i) + 7;
+			})
+			.attr('y', function(data){
+				return svgHeight - yScale(data.values) - 15;
+			});
 	}
 
 	return{
 		filterMentions: filterMentions,
-		// filterProvider: filterProvider,
 		getLikes: getLikes,
 		init: init
 	}

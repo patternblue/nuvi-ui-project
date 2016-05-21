@@ -119,7 +119,8 @@ var activityService = (function($){
 
 	return {
 		// getActivities: getActivities,
-		init: init
+		init: init,
+		capitalize: capitalize
 	}
 
 })(jQuery);
