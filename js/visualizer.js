@@ -1,21 +1,22 @@
 var visualizerService = (function($){
 
-	function getMentions(activities, word){
-		var mentions = 0;
+
+	function filterList(activities, word){
+
+		// check list for regex pattern
 		var regex = new RegExp(word.toLowerCase(), 'g');
-		activities.forEach(function(activity){
-			// console.log(activity.activity_message.toLowerCase());
-			var message = activity.activity_message.toLowerCase();
-			var matchFound = message.match(regex);
-			// console.log(matchFound);
-			if(matchFound){
-				mentions += matchFound.length;
-			}
-			// console.log(mentions);
-			// mentions += message.match(regex).length;
-		});
-		// console.log(mentions);
-		return mentions;
+
+		function matchesFound(activity){
+			return activity.activity_message.toLowerCase().match(regex);
+		}
+		return activities.filter(matchesFound);
+	}
+
+	function getLikes(activities){
+		function totalLikes(preVal, activity, i, arr){
+			return activity.activity_likes + preVal;
+		}
+		return activities.reduce(totalLikes, 0);
 	}
 
 	function init(){
@@ -23,7 +24,8 @@ var visualizerService = (function($){
 	}
 
 	return{
-		getMentions: getMentions,
+		filterList: filterList,
+		getLikes: getLikes,
 		init: init
 	}
 })(jQuery);

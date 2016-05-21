@@ -1,12 +1,5 @@
 var activityService = (function($){
 
-	// var activities = {};
-	// function getActivities(data, cb){
-	// 	cb(data);
-	// }
-	// function storeActivities(data){
-	// 	activities.data = data;
-	// }
 	function getJSON(cb){
 		var url = 'https://nuvi-challenge.herokuapp.com/activities';
 		$.ajax({
