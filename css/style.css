@@ -31,17 +31,6 @@ body {
 #submit-error {
   display: none; }
 
-/*input.inline{
-	width: auto;
-	display: inline;
-}*/
-/*.brand-submit{
-	float: left;
-}*/
-.brand-label {
-  /*float: right;*/
-  /*clear: both;*/ }
-
 .comment {
   background-color: #302222;
   border-radius: 30px;

@@ -13,7 +13,6 @@ function processActivities(data){
 
 	console.log(mentions + ' mentions');
 	console.log(totalLikes + ' likes');
-	// return data;
 }
 
 function main(){
