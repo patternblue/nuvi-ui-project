@@ -12,16 +12,35 @@ body {
   background-color: #ebebeb; }
 
 #ajax-notification {
+  background: #99e; }
+
+#ajax-error {
+  background: #e99; }
+
+#ajax-notification, #ajax-error {
   text-align: center;
   position: fixed;
   border-radius: 30px;
   width: 100%;
   display: none;
-  background: #99e;
   opacity: 0.8;
   bottom: 0px;
   padding-top: 20px;
   color: #ebebeb; }
+
+#submit-error {
+  display: none; }
+
+/*input.inline{
+	width: auto;
+	display: inline;
+}*/
+/*.brand-submit{
+	float: left;
+}*/
+.brand-label {
+  /*float: right;*/
+  /*clear: both;*/ }
 
 .comment {
   background-color: #302222;

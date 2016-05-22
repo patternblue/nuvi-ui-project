@@ -1,37 +1,16 @@
 var visualizerService = (function($, d3){
 
-
-	function filterMentions(list, word){
-		// check list for regex pattern
-		var regex = new RegExp(word.toLowerCase(), 'g');
-
-		function matchesFound(activity){
-			return activity.activity_message.toLowerCase().match(regex);
-		}
-		return list.filter(matchesFound);
+	// map likes data to chart's attributes
+	function likesFN(d){ 
+		return d.activity_likes
+	};
+	
+	// filter function for mapping data based on a specific provider name
+	function providerFN(d){
+		return d.provider.toLowerCase();
 	}
-
-	function getLikes(list){
-		function totalLikes(preVal, activity){
-			return activity.activity_likes + preVal;
-		}
-		return list.reduce(totalLikes, 0);
-	}
-
 
 	function init(chartData){
-
-		// map likes data to chart's attributes
-		function likesFN(d){ 
-			return d.activity_likes
-		};
-		
-		
-		// filter function for mapping data based on a specific provider name
-		function providerFN(d){
-			// return d.provider.toLowerCase() === provider;
-			return d.provider.toLowerCase();
-		}
 
 		//  size of svg element
 		var svgHeight = 400,
@@ -114,8 +93,6 @@ var visualizerService = (function($, d3){
 	}
 
 	return{
-		filterMentions: filterMentions,
-		getLikes: getLikes,
 		init: init
 	}
 })(jQuery, d3);

@@ -19,6 +19,7 @@ $dark-red: #302222;
 $dark-gray: #252525;
 $white: #f4f4f4;
 $light-blue: #99e;
+$light-red: #e99;
 
 // Border radii
 $rounded: 1000px;
@@ -28,16 +29,37 @@ body{
 	background-color: $light-gray;
 }
 #ajax-notification{
+	background: $light-blue;
+}
+#ajax-error{
+	background: $light-red;
+}
+#ajax-notification, #ajax-error{
 	text-align: center;
 	position: fixed;
 	border-radius: $rounded-small;
 	width: 100%;
 	display: none;
-	background: $light-blue;
     opacity: 0.8;
 	bottom: 0px;
 	padding-top: 20px;
 	color: $light-gray;
+}
+#submit-error{
+	display: none;
+}
+
+/*input.inline{
+	width: auto;
+	display: inline;
+}*/
+
+/*.brand-submit{
+	float: left;
+}*/
+.brand-label{
+	/*float: right;*/
+	/*clear: both;*/
 }
 
 .comment{

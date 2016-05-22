@@ -1,23 +1,40 @@
 
 $(document).ready(main);
 
+function processActivities(data){
+	console.log(data);
+
+	var word = $('#brand-input').val();
+	var mentionedActivities = activityService.filterMentions(data, word);
+	var mentions = mentionedActivities.length;
+	var totalLikes = activityService.getLikes(mentionedActivities);
+
+	visualizerService.init(mentionedActivities);
+
+	console.log(mentions + ' mentions');
+	console.log(totalLikes + ' likes');
+	// return data;
+}
+
 function main(){
-	var activities = activityService.init(function(data){
-		console.log(data);
 
-		// test word to search for in message property
-		var word = 'placehold';
-		var mentionedActivities = visualizerService.filterMentions(data, word);
+	var $form = $('#brand-form');
+	$form.validation();
 
+	// events
 
-		var mentions = mentionedActivities.length;
-		var totalLikes = visualizerService.getLikes(mentionedActivities);
-	
-		visualizerService.init(mentionedActivities);
+	$('#submit-brand').click(function(event){
 
-		console.log(mentions + ' mentions');
-		console.log(totalLikes + ' likes');
-		return data;
+		// do ajax if client-side validation succeeds
+		// or show error
+		if(!$form.validate()){
+			$('#submit-error').show();
+		}else{
+			$('#submit-error').hide();
+			activityService.init(processActivities);
+		}
+		event.preventDefault();
 	});
+
 }
 

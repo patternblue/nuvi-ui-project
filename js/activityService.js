@@ -8,6 +8,8 @@ var activityService = (function($){
 			dataType: 'json',
 			timeout: 2000,
 			success:function(results){
+				$('#comments').empty();
+				$('#bar-chart').empty();
 				cb(results);
 				displayActivities(results, cb);
 			},
@@ -16,6 +18,8 @@ var activityService = (function($){
 		        console.log( "Error: " + errorThrown );
 		    	console.log( "Status: " + status );
 				console.dir( xhr );
+				$('#ajax-notification').hide();
+				$('#ajax-error').show().html('<p>' + errorThrown + ' ' + status + ' error</p>');
 			},
 			complete: function(){
 				console.log('complete');
@@ -104,22 +108,38 @@ var activityService = (function($){
 		}
 	}
 
+	function filterMentions(list, word){
+		// check list for regex pattern
+		var regex = new RegExp(word.toLowerCase(), 'g');
+
+		function matchesFound(activity){
+			return activity.activity_message.toLowerCase().match(regex);
+		}
+		return list.filter(matchesFound);
+	}
+
+	function getLikes(list){
+		function totalLikes(preVal, activity){
+			return activity.activity_likes + preVal;
+		}
+		return list.reduce(totalLikes, 0);
+	}
+
 	function init(cb){
-		// listen for first click to get the data
-		$(document).on('click', function(){
-			$(document).off('click');		
-			getJSON(cb);
-		});
 		// display loading bar while rendering the comments
 		$(document).ajaxStart(function() {
+			$('#ajax-error').hide();
 			$('#ajax-notification').show();
 		});
 
+		getJSON(cb);
 	}
 
 	return {
 		// getActivities: getActivities,
 		init: init,
+		filterMentions: filterMentions,
+		getLikes: getLikes,
 		capitalize: capitalize
 	}
 
