@@ -69,26 +69,27 @@ var visualizerService = (function($, d3){
 			});
 
 		var texts = svg.selectAll('text').data(sumOfLikesData).enter();
+		// text label for number of likes
 		texts.append('text')
 			.text(function(data){
     		    return data.values + ' likes';
 	   		})
 			.attr('x', function(data, i) {
-				return xScale(i) + 5;
+				return xScale(i) + 20;
 			})
 			.attr('y', function(data){
-				return svgHeight - yScale(data.values) + 20;
+				return svgHeight - yScale(data.values) - 7;
 			});
-
+		// text label for provider name
 		texts.append('text')
 			.text(function(data){
     		    return activityService.capitalize(data.key);
 	   		})
 			.attr('x', function(data, i) {
-				return xScale(i) + 7;
+				return xScale(i) + 20;
 			})
 			.attr('y', function(data){
-				return svgHeight - yScale(data.values) - 15;
+				return svgHeight - yScale(data.values) - 30;
 			});
 	}
 

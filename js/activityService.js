@@ -7,6 +7,9 @@ var activityService = (function($){
 			type: 'GET',
 			dataType: 'json',
 			timeout: 2000,
+			headers: {
+				'Connection': 'Keep-Alive'
+			},
 			success:function(results){
 				$('#comments').empty();
 				$('#bar-chart').empty();
@@ -19,7 +22,7 @@ var activityService = (function($){
 		    	console.log( "Status: " + status );
 				console.dir( xhr );
 				$('#ajax-notification').hide();
-				$('#ajax-error').show().html('<p>' + errorThrown + ' ' + status + ' error</p>');
+				$('#ajax-error').show().html('<p>' + errorThrown + '</p>');
 			},
 			complete: function(){
 				console.log('complete');
@@ -136,7 +139,6 @@ var activityService = (function($){
 	}
 
 	return {
-		// getActivities: getActivities,
 		init: init,
 		filterMentions: filterMentions,
 		getLikes: getLikes,

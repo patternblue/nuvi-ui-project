@@ -1,0 +1,7 @@
+GET https://nuvi-challenge.herokuapp.com/activities HTTP/1.1
+Host: nuvi-challenge.herokuapp.com
+Cookie: SESSION=NUVI-12345
+Content-Type: text/plain
+Accept: application/json
+Connection: Keep-Alive
+
