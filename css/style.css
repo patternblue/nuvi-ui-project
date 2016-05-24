@@ -11,13 +11,16 @@
 body {
   background-color: #ebebeb; }
 
-#ajax-notification {
+#ajax-loading {
   background: #99e; }
 
 #ajax-error {
   background: #e99; }
 
-#ajax-notification, #ajax-error {
+#render-displaying {
+  background: #99e; }
+
+#ajax-loading, #ajax-error, #render-displaying {
   text-align: center;
   position: fixed;
   border-radius: 30px;

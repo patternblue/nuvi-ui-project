@@ -28,13 +28,16 @@ $rounded-small: 30px;
 body{
 	background-color: $light-gray;
 }
-#ajax-notification{
+#ajax-loading{
 	background: $light-blue;
 }
 #ajax-error{
 	background: $light-red;
 }
-#ajax-notification, #ajax-error{
+#render-displaying{
+	background: $light-blue;	
+}
+#ajax-loading, #ajax-error, #render-displaying{
 	text-align: center;
 	position: fixed;
 	border-radius: $rounded-small;

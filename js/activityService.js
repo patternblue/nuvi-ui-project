@@ -13,15 +13,17 @@ var activityService = (function($){
 			success:function(results){
 				$('#comments').empty();
 				$('#bar-chart').empty();
+				$('#ajax-loading').hide();
 				cb(results);
-				displayActivities(results, cb);
+				var entries = getEntries(results);
+				displayActivities(entries);
 			},
 			error:function(xhr, status, errorThrown){
 				console.log('there was an error!');
 		        console.log( "Error: " + errorThrown );
 		    	console.log( "Status: " + status );
 				console.dir( xhr );
-				$('#ajax-notification').hide();
+				$('#ajax-loading').hide();
 				$('#ajax-error').show().html('<p>' + errorThrown + '</p>');
 			},
 			complete: function(){
@@ -30,9 +32,8 @@ var activityService = (function($){
 		});
 	}
 
-	function displayActivities(activities, cb){
-
-		// for each activity, construct a comment entry
+	function getEntries(activities){
+		var stack = [];
 		activities.forEach(function(activity, i, allActivities){
 			var entry = '<div class="comment"><section class="top"><h6 class="byline"><span class="actor_avator"></span><span class="actor_username"></span><small> said <span class="data activity_date"></span></small></h6></section><section class="content activity_message"></section><section class="actions"><ul class="menu inline-list"><li class="like activity_likes"></li><li class="reply"></li><li class="source activity_url"></li></ul></section></div>',
 				$entry = $(entry),
@@ -47,15 +48,40 @@ var activityService = (function($){
 			$entry.find('.reply').append('<a href="' + replyUrl + '" target="_blank">Reply</a>');
 			entry = $entry[0].outerHTML;
 
-			// render an activity after each interval
-			setTimeout(function(){
-				render(entry);
-				// check if the comment is the last one in the list
-				if(i >= allActivities.length - 1) waitForAnotherRequest(cb);
-			}, i*300);
+			stack.unshift(entry);	
+		});
+		return stack;
+	}
+	function displayActivities(stack){
+		$('#render-displaying').show();				
+		renderHowMany(stack, 10, function(updatedStack){
+		    $('#render-displaying').hide("fade", "swing", 500, function(){
+				listenForMore(updatedStack);			
+			});			
 		});
 	}
-
+	function listenForMore(stack){
+		if(stack.length > 0){
+			// attach scroll event listener, and check if scrolled to bottom
+			$(window).on('scroll', function(){
+				checkScrollBottom(function(){	
+					displayActivities(stack);
+				});
+			});
+		}
+	}
+	function renderHowMany(stack, amount, cb){
+		var count = 0;
+		if(stack.length < amount) amount = stack.length; 
+		for (var i = 0; i < amount; i++){
+			setTimeout(function(){
+				render(stack[stack.length - 1]);
+				stack.pop();
+				count++;
+				if (count >= amount) cb(stack);		
+			}, i*400);					
+		}
+	}
 	function getElementList(activity){
 		return {
 			actor_name: activity.actor_name,
@@ -93,21 +119,10 @@ var activityService = (function($){
 		$('#comments').append(entry); 
 		$('.comment:last').effect("highlight",{color: '#0c0'},1000);
 	}
-
-	// attach scroll event listener, and check if scrolled to bottom
-	function waitForAnotherRequest(cb){
-	    $('#ajax-notification').hide("fade", "swing", 500, function(){
-			$(window).on('scroll', function(){
-				checkScrollBottom(cb);
-			});
-	    });
-	}
-
-	// check if scrolled to bottom. If so, then get more activities
 	function checkScrollBottom(cb){
 		if($(window).scrollTop() + $(window).height() > $(document).height() - $('.comment').height()) {
 			$(window).off('scroll');
-			getJSON(cb);
+			cb();
 		}
 	}
 
@@ -132,7 +147,7 @@ var activityService = (function($){
 		// display loading bar while rendering the comments
 		$(document).ajaxStart(function() {
 			$('#ajax-error').hide();
-			$('#ajax-notification').show();
+			$('#ajax-loading').show();
 		});
 
 		getJSON(cb);
